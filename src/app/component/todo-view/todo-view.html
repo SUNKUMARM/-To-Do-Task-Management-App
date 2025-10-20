@@ -1,1 +1,151 @@
-<button mat-button  (click)="openDialog()">open dialog</button>
+<div class="todo-container-parent">
+  <div class="todo-container">
+    <!--======= Header =========-->
+    <header fxLyout="row" fxLayoutAlign="space-between center">
+      <div>
+        <div fxLyout="row" fxLayoutAlign="start center" fxLayoutGap="12px">
+          <i class="fas fa-tasks"></i>
+          <div class="sub-title">TaskFlow ATS</div>
+        </div>
+        <div class="critical-insights-content">Comprehensive Task Management for Recruitment Excellence</div>
+      </div>
+      <button mat-button type="button" class="snapshot-button" (click)="openCreateTaskDialog()">
+        <i class="fas fa-plus"></i>
+        Add Task
+      </button>
+    </header>
+
+    <!--========= Stats Cards =========-->
+    <div class="report-card" fxLayout="row wrap" fxLayoutAlign="start stretch" style="gap: 8px;">
+      <div fxLayout="row" class="card-div card-ani">
+        <div class="icon-wrapper" style="background: rgb(156 39 176 / 11%); border: 1px solid rgb(156 39 176 / 20%);">
+          <mat-icon style="font-size: 16px; color: #9c27b0;">list</mat-icon>
+        </div>
+        <div>
+          <div class="critical-insights-title">Total Tasks</div>
+          <div class="badge">{{tasks.length}}</div>
+        </div>
+      </div>
+      <div fxLayout="row" class="card-div card-ani">
+        <div class="icon-wrapper" style="background: rgba(41, 166, 71, 0.13); border: 1px solid rgb(41 166 71 / 20%);">
+          <mat-icon style="color: #29a647;">verified</mat-icon>
+        </div>
+        <div>
+          <div class="critical-insights-title">Completed</div>
+          <div class="badge">{{getCompletedTasksCount()}}</div>
+        </div>
+      </div>
+      <div fxLayout="row" class="card-div card-ani">
+        <div class="icon-wrapper"
+          style="background: hsl(219deg 100% 60% / 11%); border: 1px solid hsl(219deg 100% 60% / 20%);">
+          <mat-icon style="font-size: 16px; color: #3179ff;">hourglass_top</mat-icon>
+        </div>
+        <div>
+          <div class="critical-insights-title">In Progress</div>
+          <div class="badge">{{getInProgressTasksCount()}}</div>
+        </div>
+      </div>
+      <div fxLayout="row" class="card-div card-ani">
+
+        <div class="icon-wrapper" style="border: 1px solid hsl(1deg 77% 55% / 20%); background: #ef87853d;">
+          <mat-icon style="color: #e53935;">radio_button_checked</mat-icon>
+        </div>
+        <div>
+          <div class="critical-insights-title">Overdue</div>
+          <div class="badge">{{getOverdueTasksCount()}}</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!--======== Filters and Search ========-->
+    <div>
+      <div class="todo-filter-wrapper" fxLayout="row wrap" fxLayoutAlign="space-between center" style="margin-bottom: 6px;">
+        <div fxFlex="33" class="search-container">
+          <i class="fas fa-search search-icon"></i>
+          <input type="text" class="search-input filter-border"
+            placeholder="Search tasks, descriptions, or assignees..." [(ngModel)]="searchTerm" (input)="onSearch()" />
+        </div>
+
+        <div fxFlex="65" fxLayout="row wrap" fxLayoutAlign="end center" class="filters-container">
+          <!-- View Mode Toggle -->
+          <div class="segment-control filter-border">
+            <button class="segment-btn" [class.active]="currentView === 'kanban'" (click)="switchView('kanban')">
+              <i class="fas fa-columns"></i>
+              Kanban
+            </button>
+            <button class="segment-btn" [class.active]="currentView === 'list'" (click)="switchView('list')">
+              <mat-icon class="hight-width-fit-icon" style="font-size: 15px;">table_chart</mat-icon>
+              Table
+            </button>
+          </div>
+
+          <button mat-button [matMenuTriggerFor]="statusMenu"
+            class="toolbar-button tab-button animation-button filter-border fltr-btn"
+            style="height: 33px !important; outline: none !important;">
+            <div class="sort-view-controls-value">{{ filterStatus ? (getStatusLabel(filterStatus)) : 'All Statuses' }}
+            </div>
+            <mat-icon class="sort-view-table">arrow_drop_down</mat-icon>
+          </button>
+          <mat-menu #statusMenu="matMenu" class="reports-menu">
+            <div class="menu-border">
+              <button mat-menu-item (click)="filterStatus = ''; onFilterChange()">All Statuses</button>
+              <button mat-menu-item (click)="filterStatus = 'not_started'; onFilterChange()">Not Started</button>
+              <button mat-menu-item (click)="filterStatus = 'in_progress'; onFilterChange()">In Progress</button>
+              <button mat-menu-item (click)="filterStatus = 'completed'; onFilterChange()">Completed</button>
+              <button mat-menu-item (click)="filterStatus = 'on_hold'; onFilterChange()">On Hold</button>
+            </div>
+          </mat-menu>
+
+          <button mat-button [matMenuTriggerFor]="priorityMenu"
+            class="toolbar-button tab-button animation-button filter-border fltr-btn"
+            style="height: 33px !important; outline: none !important;">
+            <div class="sort-view-controls-value">{{ filterPriority ? (filterPriority | titlecase) : 'All Priorities' }}
+            </div>
+            <mat-icon class="sort-view-table">arrow_drop_down</mat-icon>
+          </button>
+          <mat-menu #priorityMenu="matMenu" class="reports-menu">
+            <div class="menu-border">
+              <button mat-menu-item (click)="filterPriority = ''; onFilterChange()">All Priorities</button>
+              <button mat-menu-item (click)="filterPriority = 'low'; onFilterChange()">Low</button>
+              <button mat-menu-item (click)="filterPriority = 'normal'; onFilterChange()">Normal</button>
+              <button mat-menu-item (click)="filterPriority = 'high'; onFilterChange()">High</button>
+              <button mat-menu-item (click)="filterPriority = 'urgent'; onFilterChange()">Urgent</button>
+            </div>
+          </mat-menu>
+
+          <button mat-button [matMenuTriggerFor]="assigneeMenu"
+            class="toolbar-button tab-button animation-button filter-border fltr-btn"
+            style="height: 33px !important; outline: none !important;">
+            <div class="sort-view-controls-value">{{ filterAssignee || 'All Assignees' }}</div>
+            <mat-icon class="sort-view-table">arrow_drop_down</mat-icon>
+          </button>
+          <mat-menu #assigneeMenu="matMenu" class="reports-menu">
+            <div class="menu-border">
+              <button mat-menu-item (click)="filterAssignee = ''; onFilterChange()">All Assignees</button>
+              <button mat-menu-item *ngFor="let assignee of getUniqueAssignees()"
+                (click)="filterAssignee = assignee; onFilterChange()">{{ assignee }}</button>
+            </div>
+          </mat-menu>
+
+          <button mat-button [matMenuTriggerFor]="dueDateMenu"
+            class="toolbar-button tab-button animation-button filter-border fltr-btn"
+            style="height: 33px !important; outline: none !important;">
+            <div class="sort-view-controls-value">{{ getDueDateLabel(filterDueDate) }}</div>
+            <mat-icon class="sort-view-table">arrow_drop_down</mat-icon>
+          </button>
+          <mat-menu #dueDateMenu="matMenu" class="reports-menu">
+            <div class="menu-border">
+              <button mat-menu-item (click)="filterDueDate = 'all'; onFilterChange()">All Due Dates</button>
+              <button mat-menu-item (click)="filterDueDate = 'overdue'; onFilterChange()">Overdue</button>
+              <button mat-menu-item (click)="filterDueDate = 'today'; onFilterChange()">Due Today</button>
+              <button mat-menu-item (click)="filterDueDate = 'thisweek'; onFilterChange()">Due This Week</button>
+            </div>
+          </mat-menu>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

@@ -530,4 +530,39 @@ export class TodoService {
   getAllTasks(): Observable<Task[]> {
     return of([...this.mockTasks]).pipe(delay(300));
   }
+
+  //todo task realted datas
+  getPriorityColor(priority: string): string {
+    const colors = {
+      low: '#ffc107',
+      medium: '#007AFF',
+      high: '#FF9500',
+      urgent: '#FF3B30'
+    };
+    return colors[priority as keyof typeof colors] || '#007AFF';
+  }
+
+  getStatusColor(status: string): string {
+    const colors = {
+      not_started: '#cd0404',
+      in_progress: '#aba700',
+      completed: '#25b355',
+      on_hold: '#484855'
+    };
+    return colors[status as keyof typeof colors] || '#8E8E93';
+  }
+
+  
+  getProgressColor(progress: number): string {
+    if (progress <= 33) {
+      // Red gradient for low progress (0-33%)
+      return 'linear-gradient(90deg, #FF3B30 0%, #FF6B60 100%)';
+    } else if (progress <= 66) {
+      // Yellow/Orange gradient for medium progress (34-66%)
+      return 'linear-gradient(90deg, #FF9500 0%, #FFCC00 100%)';
+    } else {
+      // Green gradient for high progress (67-100%)
+      return 'linear-gradient(90deg, #34C759 0%, #30D158 100%)';
+    }
+  }
 }
