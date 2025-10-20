@@ -1,20 +1,185 @@
 <div>
-    <h1>todo</h1>
     <mat-toolbar class="toolbarclass">
-            <div *ngIf="!isTaskDetails" class="toolbar-title">
-                <mat-icon>add_box</mat-icon>
-                <span cdkFocusInitial class="dialog-title">Create New Task</span>
-            </div>
-            <div *ngIf="isTaskDetails">
-                <i style="font-size: 15px !important;"
-                    class="fas fa-list mb-3 animated rotateIn dialog-animated-icon"></i>
-                <span cdkFocusInitial class="dialog-title">Task Details</span>
-            </div>
-            <button mat-button class="toolbar-icon-button" (click)="onCancel()">
-                <mat-icon class="dialog-close-icon">close</mat-icon>
-            </button>
+        <div *ngIf="!isTaskDetails" class="toolbar-title">
+            <mat-icon>add_box</mat-icon>
+            <span cdkFocusInitial class="dialog-title">Create New Task</span>
+        </div>
+        <div *ngIf="isTaskDetails">
+            <i style="font-size: 15px !important;" class="fas fa-list mb-3 animated rotateIn dialog-animated-icon"></i>
+            <span cdkFocusInitial class="dialog-title">Task Details</span>
+        </div>
+        <button mat-button class="toolbar-icon-button" (click)="onCancel()">
+            <mat-icon class="dialog-close-icon">close</mat-icon>
+        </button>
     </mat-toolbar>
     <div>
-        
+        <form *ngIf="!isTaskDetails" [formGroup]="taskCreateForm" (ngSubmit)="onSubmit()" class="task-form">
+            <div class="form-body-wrapper">
+                <div class="subtitle">Basic Information</div>
+                <!-- Hidden ID Field -->
+                <input type="hidden" formControlName="id">
+
+                <!-- Title -->
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Task Title</mat-label>
+                    <input matInput formControlName="title" placeholder="Enter task title" required>
+                    <mat-error *ngIf="taskCreateForm.get('title')?.hasError('required')">
+                        Title is required
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Description -->
+                <div fxLayout="column">
+                    <mat-label class="critical-insights-title">Description</mat-label>
+                    <textarea matInput formControlName="description" rows="3"
+                        placeholder="Enter task description"></textarea>
+                </div>
+
+                <!-- Priority and Status Row -->
+                <div class="two-cal-fields-wrapper">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Priority</mat-label>
+                        <mat-select formControlName="priority" required>
+                            <mat-option *ngFor="let option of priorityOptions" [value]="option.value">
+                                {{option.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="taskCreateForm.get('priority')?.hasError('required')">
+                            Priority is required
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Status</mat-label>
+                        <mat-select formControlName="status" required>
+                            <mat-option *ngFor="let option of statusOptions" [value]="option.value">
+                                {{option.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="taskCreateForm.get('status')?.hasError('required')">
+                            Status is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="subtitle">Assignment & Scheduling</div>
+                <!-- Category and Assigned To Row -->
+                <div class="two-cal-fields-wrapper">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Category</mat-label>
+                        <mat-select formControlName="category">
+                            <mat-option *ngFor="let option of categoryOptions" [value]="option.value">
+                                {{option.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Assigned To</mat-label>
+                        <mat-select formControlName="assignedto">
+                            <mat-option *ngFor="let option of userOptions" [value]="option.value">
+                                {{option.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error style="color: #e43326;"
+                            *ngIf="taskCreateForm.get('assignedto')?.hasError('required')">
+                            <strong>Required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <!-- Date Fields Row -->
+                <div class="three-fields-wrapper two-cal-fields-wrapper">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Start Date</mat-label>
+                        <input matInput [matDatepicker]="startPicker" formControlName="startdate">
+                        <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #startPicker></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>End Date</mat-label>
+                        <input matInput [matDatepicker]="endPicker" formControlName="enddate">
+                        <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #endPicker></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Reminder Date</mat-label>
+                        <input matInput [matDatepicker]="reminderPicker" formControlName="reminderdate">
+                        <mat-datepicker-toggle matSuffix [for]="reminderPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #reminderPicker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <!-- Estimated Hours and Initial Progress Row -->
+                <div class="two-cal-fields-wrapper">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Estimated Hours</mat-label>
+                        <input matInput type="number" formControlName="estimatedhours" min="0" step="0.5">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Initial Progress (%)</mat-label>
+                        <input matInput type="number" formControlName="initialprogress" min="0" max="100">
+                    </mat-form-field>
+                </div>
+                <div class="subtitle">Candidate Related Information</div>
+                <!-- Candidate Information Section -->
+                <div class="two-cal-fields-wrapper">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Candidate Code</mat-label>
+                        <input matInput formControlName="candidatecode" placeholder="Enter candidate code">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Candidate Name</mat-label>
+                        <input matInput formControlName="candidatename" placeholder="Enter candidate name">
+                    </mat-form-field>
+                </div>
+
+                <div class="two-cal-fields-wrapper">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Candidate Email</mat-label>
+                        <input matInput type="email" formControlName="candidateemail"
+                            placeholder="candidate@example.com">
+                        <mat-error *ngIf="taskCreateForm.get('candidateemail')?.hasError('email')">
+                            Please enter a valid email address
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Requisition Code</mat-label>
+                        <input matInput formControlName="reqcode" placeholder="Enter requisition code">
+                    </mat-form-field>
+                </div>
+                <div class="subtitle">Additional Information</div>
+                <!-- Tags and External Links -->
+                <div class="two-cal-fields-wrapper">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Tags</mat-label>
+                        <input matInput formControlName="tags"
+                            placeholder="urgent, frontend, senior-role (comma-separated)">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>External Links</mat-label>
+                        <input matInput formControlName="externallinks" placeholder="https://example.com">
+                    </mat-form-field>
+                </div>
+
+                <!-- Additional Notes -->
+                <div fxLayout="column">
+                    <mat-label class="critical-insights-title">Additional Notes</mat-label>
+                    <textarea matInput formControlName="additionalnotes" rows="4"
+                        placeholder="Enter additional notes"></textarea>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-between center" style="margin-top: 16px;">
+                <button mat-button class="snapshot-button">Cancel</button>
+                <button mat-raised-button class="mat-stroked-button" type="submit" [disabled]="taskCreateForm.invalid">
+                    submit
+                </button>
+            </div>
+        </form>
     </div>
 </div>

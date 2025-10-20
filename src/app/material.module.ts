@@ -11,6 +11,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 const materialModules = [
   MatButtonModule,
@@ -24,7 +26,9 @@ const materialModules = [
   MatFormFieldModule,
   MatSelectModule,
   MatSlideToggleModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
+  MatDatepickerModule,
+  MatNativeDateModule
 ];
 
 @NgModule({
