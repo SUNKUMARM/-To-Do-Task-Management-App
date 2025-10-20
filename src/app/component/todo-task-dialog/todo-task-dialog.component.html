@@ -176,7 +176,8 @@
             </div>
             <div class="action-btn-wrapper" style="margin-top: 16px;">
                 <button mat-button class="cancel-button">Cancel</button>
-                <button mat-raised-button class="submit-button" type="submit" [disabled]="taskCreateForm.invalid">
+                <button mat-raised-button [ngClass]="!taskCreateForm.invalid ? 'submit-button':''" type="submit"
+                    [disabled]="taskCreateForm.invalid">
                     submit
                 </button>
             </div>
