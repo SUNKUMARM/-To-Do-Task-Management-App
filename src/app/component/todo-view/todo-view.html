@@ -144,6 +144,276 @@
           </mat-menu>
         </div>
       </div>
+
+      <!-- Kanban Board -->
+      <div class="kanban-board" *ngIf="currentView === 'kanban'">
+        <!--========== Kanban card Shimmer  ============-->
+        <!-- <div *ngIf="isLoaderEnabled" class="kanban-shimmer">
+        </div> -->
+        <div class="task-column" *ngFor="let column of kanbanColumns">
+          <div class="column-header">
+            <div class="sub-title">
+              <!-- <i [class]="column.icon" [style.color]="column.color"></i> -->
+              {{ column.title }}
+            </div>
+            <div class="task-count">{{ getColumnTaskCount(column.id) }}</div>
+          </div>
+
+          <div class="task-list-kanban" cdkDropList [id]="column.id" [cdkDropListData]="getTasksByStatus(column.id)"
+            [cdkDropListConnectedTo]="getConnectedDropLists()" (cdkDropListDropped)="onTaskDrop($event, column.id)">
+
+            <div class="task-card" *ngFor="let task of getTasksByStatus(column.id)" cdkDrag [cdkDragData]="task.id"
+              (click)="openTaskDetail(task)">
+
+              <!-- <div class="task-priority-dot" [style.background]="getPriorityColor(task.priority)"></div> -->
+
+              <!-- <div class="task-header"> -->
+              <div class="critical-insights-title title-elipsis">{{ task.title }}</div>
+              <!-- <button class="task-menu" (click)="$event.stopPropagation()">
+                  <i class="fas fa-ellipsis-h"></i>
+                </button> -->
+              <!-- </div> -->
+              <!-- 
+              <div class="task-meta">
+
+                <span class="task-due" [ngClass]="'due-' + getDueStatus(task.enddate).class">
+                  <span class="cur-date" fxLayout="row" fxLayoutAlign="start center"
+                    style="font-size: 12px; padding-left: 6px; gap: 4px;">
+                    <mat-icon style="color: #e53935; height: fit-content; font-size: 13px;"
+                      class="hight-width-fit-icon">radio_button_checked</mat-icon>
+                    {{ getDueStatus(task.enddate).text }}
+                  </span>
+                </span>
+              </div> -->
+
+              <div class="task-assignee">
+                <!-- <div class="assignee-avatar">{{ task.assignedto.initials }}</div> -->
+                <mat-icon class="hight-width-fit-icon">person</mat-icon>
+                <div class="assignee-info">
+                  <div class="critical-insights-title" style="margin: 0px;">
+                    <span class="critical-insights-content created-by" style="font-size: 12px;">Category: </span>{{
+                    (task.category || 'general').replace('-', ' ') | titlecase }}
+                  </div>
+                  <div class="subtitle" style="font-size: 13px; margin: 0px;">{{ task.assignedtoname }}</div>
+                  <div class="critical-insights-content created-by" style="font-size: 12px;">Created by {{
+                    task.createdby }}</div>
+                </div>
+                <div fxLayout="column" fxLayoutAlign="space-between end" fxLayoutGap="6px">
+                  <div class="dtStatusChip">
+                    <span [style.color]="getPriorityColor(task.priority)">
+                      {{ task.priority | titlecase }}
+                    </span>
+                  </div>
+                  <span class="task-due" [ngClass]="'due-' + getDueStatus(task.enddate).class">
+                    <span class="cur-date" fxLayout="row" fxLayoutAlign="start center"
+                      style="font-size: 12px; padding-left: 6px; gap: 4px;">
+                      <mat-icon style="color: #e53935; height: fit-content; font-size: 13px;"
+                        class="hight-width-fit-icon">radio_button_checked</mat-icon>
+                      {{ getDueStatus(task.enddate).text }}
+                    </span>
+                  </span>
+                </div>
+              </div>
+
+              <div class="task-progress" *ngIf="task.initialprogress !== undefined">
+                <div class="progress-header">
+                  <span class="progress-label">
+                    <i class="fas fa-chart-line"></i>
+                    Progress
+                  </span>
+                  <span class="progress-percentage">{{ task.initialprogress }}%</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" [style.width.%]="task.initialprogress"
+                    [style.background]="getProgressColor(task.initialprogress)"></div>
+                </div>
+              </div>
+              <mat-divider class="kanban-divider"></mat-divider>
+              <div class="task-actions">
+                <button mat-button [matMenuTriggerFor]="statusMenu"
+                  class="status-menu-button"
+                  (click)="$event.stopPropagation()"
+                  [style.color]="getStatusColor(task.status)">
+                  <span>{{ getStatusLabel(task.status) }}</span>
+                  <mat-icon class="menu-icon">arrow_drop_down</mat-icon>
+                </button>
+                <mat-menu #statusMenu="matMenu" class="status-menu">
+                  <div class="menu-border">
+                    <button mat-menu-item (click)="onTaskStatusChange(task.id, 'not_started')">
+                      <span [style.color]="getStatusColor('not_started')">Not Started</span>
+                    </button>
+                    <button mat-menu-item (click)="onTaskStatusChange(task.id, 'in_progress')">
+                      <span [style.color]="getStatusColor('in_progress')">In Progress</span>
+                    </button>
+                    <button mat-menu-item (click)="onTaskStatusChange(task.id, 'completed')">
+                      <span [style.color]="getStatusColor('completed')">Completed</span>
+                    </button>
+                    <button mat-menu-item (click)="onTaskStatusChange(task.id, 'on_hold')">
+                      <span [style.color]="getStatusColor('on_hold')">On Hold</span>
+                    </button>
+                  </div>
+                </mat-menu>
+
+                <div class="task-action-buttons">
+                  <button class="toolbar-icon-button action-btn-edit" mat-button
+                    style="margin-top: -2px !important; margin-left: 0px !important;"
+                    (click)="$event.stopPropagation(); openEditTaskDialog(task)" matTooltip="Edit">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button class="toolbar-icon-button" mat-button (click)="$event.stopPropagation(); deleteTask(task.id)"
+                    matTooltip="Delete" style="margin-top: -2px !important; margin-left: 0px !important;">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- table view -->
+      <div class="task-list-container" *ngIf="currentView === 'list'">
+        <mat-table class="task-table" [dataSource]="filteredTasks" matSort>
+
+          <!-- Task Column -->
+          <ng-container matColumnDef="task">
+            <mat-header-cell class="header-title" *matHeaderCellDef mat-sort-header disableClear>Task
+            </mat-header-cell>
+            <mat-cell class="task-title-cell" *matCellDef="let task" (click)="openTaskDetail(task)">
+              <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="12px">
+                <div>{{ task.title }}</div>
+              </div>
+            </mat-cell>
+          </ng-container>
+
+          <!-- Assignee Column -->
+          <ng-container matColumnDef="assignee">
+            <mat-header-cell class="header-title" *matHeaderCellDef mat-sort-header disableClear>Assignee
+            </mat-header-cell>
+            <mat-cell class="assignee-cell" *matCellDef="let task" (click)="openTaskDetail(task)">
+              <div class="assignee-info" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
+                <!-- <div class="assignee-avatar">{{ task.assignedto.initials }}</div> -->
+                <div class="assignee-details">
+                  <div class="assignee-name">{{ task.assignedtoname }}</div>
+                </div>
+              </div>
+            </mat-cell>
+          </ng-container>
+
+          <!-- Assignee Role Column -->
+          <!-- <ng-container matColumnDef="assigneeRole">
+            <mat-header-cell class="header-title" *matHeaderCellDef mat-sort-header disableClear>Role
+            </mat-header-cell>
+            <mat-cell class="assignee-role-cell" *matCellDef="let task" (click)="openTaskDetail(task)">
+              <span class="assignee-role">{{ task.assignedto.role }}</span>
+            </mat-cell>
+          </ng-container> -->
+
+          <!-- Category Column -->
+          <ng-container matColumnDef="category">
+            <mat-header-cell class="header-title" *matHeaderCellDef mat-sort-header disableClear>Category
+            </mat-header-cell>
+            <mat-cell class="category-cell" *matCellDef="let task" (click)="openTaskDetail(task)">
+              <span>
+                <!-- <i [class]="'fas ' + getCategoryIcon(task.category)"></i> -->
+                {{ (task.category || 'general').replace('-', ' ') | titlecase }}
+              </span>
+            </mat-cell>
+          </ng-container>
+
+          <!-- Status Column -->
+          <ng-container matColumnDef="status">
+            <mat-header-cell class="header-title" *matHeaderCellDef mat-sort-header disableClear>Status
+            </mat-header-cell>
+            <mat-cell class="dtStatusChip" *matCellDef="let task" (click)="openTaskDetail(task)">
+              <span [style.color]="getStatusColor(task.status)">
+                {{ task.status.replace('_', ' ') | titlecase }}
+              </span>
+            </mat-cell>
+          </ng-container>
+
+          <!-- Priority Column -->
+          <ng-container matColumnDef="priority">
+            <mat-header-cell class="header-title" *matHeaderCellDef mat-sort-header disableClear>Priority
+            </mat-header-cell>
+            <mat-cell class="dtStatusChip" *matCellDef="let task" (click)="openTaskDetail(task)">
+              <span [style.color]="getPriorityColor(task.priority)">
+                {{ task.priority | titlecase }}
+              </span>
+            </mat-cell>
+          </ng-container>
+
+          <!-- Due Date Column -->
+          <ng-container matColumnDef="dueDate">
+            <mat-header-cell class="header-title" *matHeaderCellDef mat-sort-header disableClear>Due Date
+            </mat-header-cell>
+            <mat-cell class="due-date-cell" *matCellDef="let task" (click)="openTaskDetail(task)">
+              <span [ngClass]="'due-' + getDueStatus(task.enddate).class">
+                {{ getDueStatus(task.enddate).text }}
+              </span>
+            </mat-cell>
+          </ng-container>
+
+          <!-- Progress Column -->
+          <ng-container matColumnDef="progress">
+            <mat-header-cell class="header-title" *matHeaderCellDef mat-sort-header disableClear>Progress
+            </mat-header-cell>
+            <mat-cell class="progress-cell" *matCellDef="let task" (click)="openTaskDetail(task)">
+              <div class="progress-container">
+                <div class="progress-bar">
+                  <div class="progress-fill" [style.width.%]="task.initialprogress"
+                    [style.background]="getProgressColor(task.initialprogress)"></div>
+                </div>
+                <span class="progress-text">{{ task.initialprogress }}%</span>
+              </div>
+            </mat-cell>
+          </ng-container>
+
+          <!-- Actions Column -->
+          <ng-container matColumnDef="actions" stickyEnd>
+            <mat-header-cell class="header-title" *matHeaderCellDef>Action</mat-header-cell>
+            <mat-cell class="action-cell" *matCellDef="let task" style="padding: 5px 0px 0px 0px !important;">
+              <span fxLayout="row" fxLayoutAlign="center center" style="gap: 6px;">
+                <button class="toolbar-icon-button action-btn-edit" mat-button
+                  style="margin-top: -2px !important; margin-left: 0px !important;"
+                  (click)="$event.stopPropagation(); openEditTaskDialog(task)" matTooltip="Edit">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button class="toolbar-icon-button" mat-button (click)="$event.stopPropagation(); deleteTask(task.id)"
+                  matTooltip="Delete" style="margin-top: -2px !important; margin-left: 0px !important;">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </span>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;" class="header-firstrow"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+
+        <!-- Empty State -->
+        <div *ngIf="filteredTasks.length === 0" class="empty-state">
+          <i class="fas fa-tasks empty-icon"></i>
+          <p class="no-data-msg">No tasks found</p>
+          <p class="critical-insights-content">{{ searchTerm || filterStatus || filterPriority || filterAssignee ? 'Try
+            adjusting your filters' : 'Create
+            your first task to get started' }}</p>
+          <button *ngIf="!searchTerm && !filterStatus && !filterPriority && !filterAssignee" class="btn btn-primary"
+            (click)="openCreateTaskDialog()">
+            <i class="fas fa-plus"></i>
+            Create Task
+          </button>
+        </div>
+
+        <!-- paginator -->
+        <!-- <mat-paginator [pageIndex]="page.pageNumber"
+          [length]="page.totalElements" [pageSize]="page.size" [pageSizeOptions]="pageOptions"
+          (page)="setnextpage($event)" class="data-table-paginator">
+        </mat-paginator> -->
+        <mat-paginator [pageIndex]="0" [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 50]"
+          class="data-table-paginator">
+        </mat-paginator>
+      </div>
     </div>
   </div>
 </div>
