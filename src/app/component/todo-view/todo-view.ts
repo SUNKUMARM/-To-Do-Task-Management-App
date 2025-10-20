@@ -15,8 +15,8 @@ export class TodoViewComponent {
         import('../todo-task-dialog/todo-task-dialog.component').then(d => {
             const dialog = this.dialog.open(d.TodoTaskCreateDialog, {
                 width: '800px',
-                maxHeight: '90vh',
                 disableClose: false,
+                panelClass: 'custom-bottom-sheet',
                 data: {
                     isEdit: false,
                     taskData: null,

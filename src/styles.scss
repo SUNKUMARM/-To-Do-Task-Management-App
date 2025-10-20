@@ -15,3 +15,67 @@ body {
     --font-color: #444;
     --icon-color: #787878;
 }
+
+.mat-mdc-form-field {
+    width: 100%;
+}
+
+textarea {
+    border-radius: 8px;
+    width: 99%;
+    margin-bottom: 6px;
+    resize: vertical;
+    overflow-x: hidden;
+    min-height: 56px;
+}
+
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline .mdc-notched-outline__leading {
+    border-radius: 8px 0px 0px 8px;
+}
+
+.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field .mdc-notched-outline__notch {
+    border-radius: 0px !important;
+}
+
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline .mdc-notched-outline__trailing {
+    border-radius: 0px 8px 8px 0px;
+}
+
+.subtitle {
+    color: #00693e;
+    font-weight: 500;
+    font-size: 15px;
+    margin-bottom: 6px;
+}
+
+.extra-label {
+    font-weight: 500;
+    color: var(--font-color);
+    margin-bottom: 6px;
+}
+
+.grid-3cal {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr) !important;
+    column-gap: 12px;
+}
+
+.grid-2cal {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr) !important;
+    column-gap: 12px;
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+
+    .grid-2cal,
+    .grid-3cal {
+        grid-template-columns: repeat(1, 1fr) !important;
+    }
+}
+
+mat-icon {
+    font-size: 18px;
+    height: fit-content;
+    width: fit-content;
+}

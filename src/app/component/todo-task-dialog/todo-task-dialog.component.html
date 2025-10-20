@@ -12,7 +12,7 @@
             <mat-icon class="dialog-close-icon">close</mat-icon>
         </button>
     </mat-toolbar>
-    <div>
+    <div class="dialog-body">
         <form *ngIf="!isTaskDetails" [formGroup]="taskCreateForm" (ngSubmit)="onSubmit()" class="task-form">
             <div class="form-body-wrapper">
                 <div class="subtitle">Basic Information</div>
@@ -29,14 +29,14 @@
                 </mat-form-field>
 
                 <!-- Description -->
-                <div fxLayout="column">
-                    <mat-label class="critical-insights-title">Description</mat-label>
+                <div style="margin-bottom: 12px;">
+                    <div class="extra-label">Description</div>
                     <textarea matInput formControlName="description" rows="3"
                         placeholder="Enter task description"></textarea>
                 </div>
 
                 <!-- Priority and Status Row -->
-                <div class="two-cal-fields-wrapper">
+                <div class="grid-2cal">
                     <mat-form-field appearance="outline">
                         <mat-label>Priority</mat-label>
                         <mat-select formControlName="priority" required>
@@ -63,7 +63,7 @@
                 </div>
                 <div class="subtitle">Assignment & Scheduling</div>
                 <!-- Category and Assigned To Row -->
-                <div class="two-cal-fields-wrapper">
+                <div class="grid-2cal">
                     <mat-form-field appearance="outline">
                         <mat-label>Category</mat-label>
                         <mat-select formControlName="category">
@@ -88,7 +88,7 @@
                 </div>
 
                 <!-- Date Fields Row -->
-                <div class="three-fields-wrapper two-cal-fields-wrapper">
+                <div class="grid-3cal">
                     <mat-form-field appearance="outline">
                         <mat-label>Start Date</mat-label>
                         <input matInput [matDatepicker]="startPicker" formControlName="startdate">
@@ -112,7 +112,7 @@
                 </div>
 
                 <!-- Estimated Hours and Initial Progress Row -->
-                <div class="two-cal-fields-wrapper">
+                <div class="grid-2cal">
                     <mat-form-field appearance="outline">
                         <mat-label>Estimated Hours</mat-label>
                         <input matInput type="number" formControlName="estimatedhours" min="0" step="0.5">
@@ -125,7 +125,7 @@
                 </div>
                 <div class="subtitle">Candidate Related Information</div>
                 <!-- Candidate Information Section -->
-                <div class="two-cal-fields-wrapper">
+                <div class="grid-2cal">
                     <mat-form-field appearance="outline">
                         <mat-label>Candidate Code</mat-label>
                         <input matInput formControlName="candidatecode" placeholder="Enter candidate code">
@@ -137,7 +137,7 @@
                     </mat-form-field>
                 </div>
 
-                <div class="two-cal-fields-wrapper">
+                <div class="grid-2cal">
                     <mat-form-field appearance="outline">
                         <mat-label>Candidate Email</mat-label>
                         <input matInput type="email" formControlName="candidateemail"
@@ -154,7 +154,7 @@
                 </div>
                 <div class="subtitle">Additional Information</div>
                 <!-- Tags and External Links -->
-                <div class="two-cal-fields-wrapper">
+                <div class="grid-2cal">
                     <mat-form-field appearance="outline" class="full-width">
                         <mat-label>Tags</mat-label>
                         <input matInput formControlName="tags"
@@ -168,15 +168,15 @@
                 </div>
 
                 <!-- Additional Notes -->
-                <div fxLayout="column">
-                    <mat-label class="critical-insights-title">Additional Notes</mat-label>
+                <div>
+                    <div class="extra-label">Additional Notes</div>
                     <textarea matInput formControlName="additionalnotes" rows="4"
                         placeholder="Enter additional notes"></textarea>
                 </div>
             </div>
-            <div fxLayout="row" fxLayoutAlign="space-between center" style="margin-top: 16px;">
-                <button mat-button class="snapshot-button">Cancel</button>
-                <button mat-raised-button class="mat-stroked-button" type="submit" [disabled]="taskCreateForm.invalid">
+            <div class="action-btn-wrapper" style="margin-top: 16px;">
+                <button mat-button class="cancel-button">Cancel</button>
+                <button mat-raised-button class="submit-button" type="submit" [disabled]="taskCreateForm.invalid">
                     submit
                 </button>
             </div>

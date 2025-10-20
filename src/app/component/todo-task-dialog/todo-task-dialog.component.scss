@@ -2,6 +2,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background: #0f7249;
+    font-size: 16px;
+    height: 56px;
+
+    .mat-icon,
+    .dialog-title {
+        color: #fff !important;
+    }
 }
 
 .toolbar-title {
@@ -27,4 +35,35 @@
         margin-right: 0px !important;
         color: var(--icon-color);
     }
+}
+
+.dialog-body {
+    padding: 24px;
+    height: 70vh;
+    overflow: auto;
+
+}
+
+.task-form {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.action-btn-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cancel-button {
+    background-image: linear-gradient(to left top, #aed5ee, #ffffff);
+    border: 1px solid #aed5ee;
+    font-size: 13px;
+}
+
+.submit-button {
+    background-image: linear-gradient(to left top, #002817, #1eb879);
+    color: #fff;
+    font-size: 13px;
 }
