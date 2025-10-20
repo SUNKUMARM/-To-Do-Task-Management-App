@@ -1,8 +1,7 @@
 <div>
     <h1>todo</h1>
-    <mat-toolbar class="toolbarclass dialogbox-toolbar-padding">
-        <div id="wrapper">
-            <div *ngIf="!isTaskDetails">
+    <mat-toolbar class="toolbarclass">
+            <div *ngIf="!isTaskDetails" class="toolbar-title">
                 <mat-icon>add_box</mat-icon>
                 <span cdkFocusInitial class="dialog-title">Create New Task</span>
             </div>
@@ -14,6 +13,8 @@
             <button mat-button class="toolbar-icon-button" (click)="onCancel()">
                 <mat-icon class="dialog-close-icon">close</mat-icon>
             </button>
-        </div>
     </mat-toolbar>
+    <div>
+        
+    </div>
 </div>

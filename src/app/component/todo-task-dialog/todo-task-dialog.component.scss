@@ -1,0 +1,30 @@
+.toolbarclass {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.toolbar-title {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 6px;
+}
+
+.toolbar-icon-button {
+    margin-right: 0%;
+    min-width: 30px;
+    line-height: 14px !important;
+    padding: 0 0px !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 30px !important;
+    border-radius: 4px !important;
+
+    .material-icons {
+        font-size: var(--icon-size);
+        margin-right: 0px !important;
+        color: var(--icon-color);
+    }
+}
