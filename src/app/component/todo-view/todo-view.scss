@@ -1,4 +1,3 @@
-
 /* Global modal styles to ensure visibility */
 app-todo .modal-overlay {
   position: fixed !important;
@@ -22,6 +21,7 @@ app-todo .modal-overlay {
   flex-direction: column;
   gap: 24px;
 }
+
 .todo-container-parent {
   width: 100%;
   display: flex;
@@ -114,6 +114,15 @@ app-todo .modal-overlay {
   position: relative;
   flex: 1;
   min-width: 250px !important;
+  max-width: 33%;
+}
+
+.chip-wraper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 6px;
 }
 
 .search-icon {
@@ -149,6 +158,10 @@ app-todo .modal-overlay {
 
 .filters-container {
   gap: 6px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  max-width: 65%;
 }
 
 // /* View Toggle */
@@ -187,21 +200,26 @@ app-todo .modal-overlay {
   gap: 6px;
   color: var(--dt-toolbar) !important;
   background-color: var(--tabactive-color);
+
   &.active {
     color: #fff !important;
     box-shadow: 0 2px 4px #dedede33;
     background: var(--accordion-gradient2) !important;
+
     mat-icon {
       color: #fff !important;
     }
   }
+
   i {
     font-size: 12px;
   }
+
   mat-icon {
     color: var(--dt-toolbar) !important;
   }
 }
+
 .segment-btn:hover {
   background-color: var(--hover-backgroundcolor);
 }
@@ -304,6 +322,7 @@ app-todo .modal-overlay {
   from {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   }
+
   to {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
   }
@@ -730,11 +749,13 @@ app-todo .modal-overlay {
   position: absolute;
   top: 32%;
   left: 45%;
+
   .empty-icon {
     font-size: 32px;
     margin-bottom: 10px;
     color: var(--icon-color);
   }
+
   .no-data-msg {
     font-size: 16px;
     font-weight: var(--title-font-weight);
@@ -939,6 +960,13 @@ app-todo .modal-overlay {
   margin-top: 4px;
 }
 
+.todo-filter-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
 /* Responsive Design */
 @media (max-width: 1200px) {
   .kanban-board {
@@ -957,13 +985,16 @@ app-todo .modal-overlay {
     flex-direction: column !important;
     gap: 6px;
   }
-  .todo-filter-wrapper > div {
+
+  .todo-filter-wrapper>div {
     min-width: 100% !important;
     max-width: 100% !important;
   }
+
   .filters-container {
     justify-content: flex-start !important;
   }
+
   .todo-container {
     padding: 16px;
   }
@@ -990,6 +1021,7 @@ app-todo .modal-overlay {
     margin-right: 0;
     margin-bottom: 8px;
   }
+
   .kanban-board {
     grid-template-columns: 1fr;
     gap: 12px;
@@ -1044,12 +1076,14 @@ app-todo .modal-overlay {
   overflow-x: hidden;
   padding: 0px 8px 8px 8px;
 }
+
 .critical-insights-title {
   font-size: var(--subtitle-font-size);
   font-weight: var(--title-font-weight);
   color: var(--font-color) !important;
   margin-bottom: 6px;
 }
+
 .subtitle {
   font-size: var(--subtitle-font-size);
   font-weight: var(--title-font-weight);
@@ -1057,6 +1091,7 @@ app-todo .modal-overlay {
   position: relative;
   margin-top: 8px;
 }
+
 // .view-wrapper {
 //   height: 100%;
 //   width: 100%;
@@ -1069,9 +1104,11 @@ app-todo .modal-overlay {
   left: 4px;
   margin-top: 0px !important;
 }
+
 .toolbar-button {
   margin-right: 0px !important;
 }
+
 .task-table .mat-column-task,
 .task-table .mat-column-assignee,
 // .task-table .mat-column-assigneeRole,
@@ -1087,16 +1124,19 @@ app-todo .modal-overlay {
   text-overflow: ellipsis;
   justify-content: left;
 }
+
 .task-table .mat-column-task {
   min-width: 320px !important;
   max-width: 320px !important;
 }
+
 .task-table .mat-column-assignee,
 .task-table .mat-column-category,
 .task-table .mat-column-progress {
   min-width: 200px !important;
   max-width: 200px !important;
 }
+
 // .task-table .mat-column-assigneeRole,
 .task-table .mat-column-status,
 .task-table .mat-column-priority,
@@ -1104,11 +1144,13 @@ app-todo .modal-overlay {
   min-width: 150px !important;
   max-width: 150px !important;
 }
+
 .task-table .mat-column-actions {
   min-width: 110px !important;
   max-width: 110px !important;
   justify-content: center;
 }
+
 .task-table.mat-mdc-table {
   max-width: 100%;
   overflow: auto;
@@ -1117,20 +1159,24 @@ app-todo .modal-overlay {
   background: var(--body-background) !important;
   border-radius: 6px;
 }
+
 .data-table-paginator {
   .mat-mdc-paginator-container {
     border-radius: 4px;
     background: var(--body-background);
   }
 }
+
 .listview-wrapper {
   padding: 12px;
   background: var(--body-background);
   border-radius: 6px;
 }
+
 .badge {
   color: var(--font-color);
 }
+
 // .listview-wrapper {
 //   padding: 12px;
 //   border-radius: 6px;
@@ -1145,6 +1191,7 @@ app-todo .modal-overlay {
     max-width: calc(100% - 1160px) !important;
   }
 }
+
 .dtStatusChip {
   padding-top: 7px !important;
 
@@ -1161,6 +1208,7 @@ app-todo .modal-overlay {
     font-size: 12px;
   }
 }
+
 .sub-title {
   font-size: 15px !important;
   font-weight: var(--title-font-weight) !important;
@@ -1238,31 +1286,38 @@ app-todo .modal-overlay {
     text-decoration: underline;
   }
 }
+
 .hight-width-fit-icon {
   height: fit-content;
   width: fit-content;
 }
+
 .title-elipsis {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
   width: 100%;
 }
+
 .toolbar-icon-button {
   height: 30px !important;
 }
+
 .key-value {
   display: flex;
   flex-direction: column;
 }
+
 .three-fields-wrapper {
   margin: 0px !important;
 }
+
 .content-wrapper {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
+
 .kanban-shimmer {
   height: 225px;
   border-radius: 12px;
@@ -1271,6 +1326,7 @@ app-todo .modal-overlay {
   position: relative;
   overflow: hidden;
 }
+
 .kanban-shimmer::after {
   background: linear-gradient(90deg, transparent, var(--table-shimmerani), transparent);
   content: "";
@@ -1281,11 +1337,90 @@ app-todo .modal-overlay {
   height: 100%;
   animation: shimmerani 1.5s infinite;
 }
+
 @keyframes shimmerani {
   0% {
     left: -100%;
   }
+
   100% {
     left: 100%;
+  }
+}
+
+.flex-sc {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.gap-16 {
+  gap: 16px;
+}
+
+.gap-8 {
+  gap: 8px;
+}
+
+.gap-6 {
+  gap: 6px;
+}
+
+.gap-12 {
+  gap: 12px;
+}
+
+.flex-cc {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-space-bit-cen {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.report-card {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.cancel-button {
+  background-image: linear-gradient(to left top, #aed5ee, #ffffff);
+  border: 1px solid #aed5ee;
+  font-size: 13px;
+}
+
+.report-card .card-div {
+  cursor: auto !important;
+  flex: 1 1 22%;
+}
+
+.card-div {
+  gap: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: #00000029 0 1px 4px;
+  cursor: pointer;
+  background-color: var(--tabactive-color);
+
+  .icon-wrapper {
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+    padding: 10px;
+    border-radius: 11px;
+  }
+
+  mat-icon {
+    height: fit-content;
+    width: fit-content;
+    font-size: 18px;
   }
 }
