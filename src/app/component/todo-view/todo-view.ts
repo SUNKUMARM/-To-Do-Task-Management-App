@@ -8,6 +8,8 @@ import { TodoTaskCreateDialog } from "../todo-task-dialog/todo-task-dialog.compo
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { CdkDragDrop } from "@angular/cdk/drag-drop"
 
+type ColumnId = 'not_started' | 'in_progress' | 'completed' | 'on_hold';
+
 @Component({
     selector: 'app-todo-view',
     templateUrl: './todo-view.html',
@@ -42,32 +44,13 @@ export class TodoViewComponent implements OnInit {
     statuses = ['not_started', 'in_progress', 'completed', 'on_hold']; // Value view Value
 
     // Kanban columns
-    kanbanColumns = [
-        {
-            id: 'not_started',
-            title: 'Not Started',
-            icon: 'fas fa-pause',
-            color: '#8E8E93'
-        },
-        {
-            id: 'in_progress',
-            title: 'In Progress',
-            icon: 'fas fa-play',
-            color: '#007AFF'
-        },
-        {
-            id: 'completed',
-            title: 'Completed',
-            icon: 'fas fa-check-circle',
-            color: '#34C759'
-        },
-        {
-            id: 'on_hold',
-            title: 'On Hold',
-            icon: 'fas fa-pause-circle',
-            color: '#FF9500'
-        }
-    ];
+kanbanColumns: { id: ColumnId; title: string; icon: string; color: string }[] = [
+  { id: 'not_started', title: 'Not Started', icon: 'fas fa-pause', color: '#8E8E93' },
+  { id: 'in_progress', title: 'In Progress', icon: 'fas fa-play', color: '#007AFF' },
+  { id: 'completed', title: 'Completed', icon: 'fas fa-check-circle', color: '#34C759' },
+  { id: 'on_hold', title: 'On Hold', icon: 'fas fa-pause-circle', color: '#FF9500' }
+];
+
     ngOnInit(): void {
 
         // Load tasks from service
@@ -470,4 +453,5 @@ export class TodoViewComponent implements OnInit {
             panelClass: type === 'success' ? 'snackbar-success' : type === 'error' ? 'snackbar-error' : 'snackbar-info'
         });
     }
+    
 }
