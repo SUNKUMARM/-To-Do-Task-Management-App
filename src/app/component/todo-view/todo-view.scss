@@ -20,6 +20,7 @@ app-todo .modal-overlay {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  overflow: auto;
 }
 
 .todo-container-parent {
@@ -204,7 +205,7 @@ app-todo .modal-overlay {
   &.active {
     color: #fff !important;
     box-shadow: 0 2px 4px #dedede33;
-    background: var(--accordion-gradient2) !important;
+    background: #00693e;
 
     mat-icon {
       color: #fff !important;
@@ -220,9 +221,6 @@ app-todo .modal-overlay {
   }
 }
 
-.segment-btn:hover {
-  background-color: var(--hover-backgroundcolor);
-}
 
 /* Kanban Board */
 .kanban-board {
@@ -257,7 +255,7 @@ app-todo .modal-overlay {
 }
 
 .task-count {
-  background: var(--accordion-gradient2);
+  background: #00693e;
   color: #fff;
   border-radius: 15px;
   font-size: 13px;
@@ -1107,6 +1105,7 @@ app-todo .modal-overlay {
 
 .toolbar-button {
   margin-right: 0px !important;
+  background-color: var(--tabactive-color);
 }
 
 .task-table .mat-column-task,
@@ -1212,7 +1211,7 @@ app-todo .modal-overlay {
 .sub-title {
   font-size: 15px !important;
   font-weight: var(--title-font-weight) !important;
-  color: #279388 !important;
+  color: #00693e;
   position: relative;
 }
 
@@ -1422,5 +1421,33 @@ app-todo .modal-overlay {
     height: fit-content;
     width: fit-content;
     font-size: 18px;
+  }
+}
+
+.toolbar-icon-button {
+  margin-right: 0%;
+  min-width: 30px;
+  line-height: 14px !important;
+  padding: 0 0px !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 30px !important;
+  border-radius: 4px !important;
+
+  .material-icons {
+    font-size: var(--icon-size);
+    margin-right: 0px !important;
+    color: var(--icon-color);
+  }
+}
+
+.menu-border {
+  border: 1px solid var(--table-border-color);
+  border-radius: 4px;
+  margin: 0px 5px;
+
+  ::ng-deep.mat-mdc-menu-item .mat-mdc-menu-item-text {
+    font-size: 13px !important;
   }
 }

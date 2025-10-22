@@ -29,6 +29,11 @@ body {
     --background-primary: #ffffff;
     --background-secondary: #f2f2f7;
     --separator: rgba(60, 60, 67, 0.29);
+    --title-font-weight: 500;
+    --body-background: #fff;
+    --tabactive-color: #fff;
+    --table-card-background: #ebeff3;
+    --table-border-color: #ebeff3;
 }
 
 .mat-mdc-form-field {
@@ -94,3 +99,4 @@ mat-icon {
     height: fit-content;
     width: fit-content;
 }
+

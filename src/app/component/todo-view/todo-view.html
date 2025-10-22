@@ -82,7 +82,7 @@
 
           <button mat-button [matMenuTriggerFor]="statusMenu"
             class="toolbar-button tab-button animation-button filter-border fltr-btn"
-            style="height: 33px !important; outline: none !important;">
+            style="height: 30px !important;font-size: 13px; outline: none !important;">
             <div class="sort-view-controls-value">{{ filterStatus ? (getStatusLabel(filterStatus)) : 'All Statuses' }}
             </div>
             <mat-icon class="sort-view-table">arrow_drop_down</mat-icon>
@@ -99,7 +99,7 @@
 
           <button mat-button [matMenuTriggerFor]="priorityMenu"
             class="toolbar-button tab-button animation-button filter-border fltr-btn"
-            style="height: 33px !important; outline: none !important;">
+            style="height: 30px !important;font-size: 13px; outline: none !important;">
             <div class="sort-view-controls-value">{{ filterPriority ? (filterPriority | titlecase) : 'All Priorities' }}
             </div>
             <mat-icon class="sort-view-table">arrow_drop_down</mat-icon>
@@ -116,7 +116,7 @@
 
           <button mat-button [matMenuTriggerFor]="assigneeMenu"
             class="toolbar-button tab-button animation-button filter-border fltr-btn"
-            style="height: 33px !important; outline: none !important;">
+            style="height: 30px !important; font-size: 13px; outline: none !important;">
             <div class="sort-view-controls-value">{{ filterAssignee || 'All Assignees' }}</div>
             <mat-icon class="sort-view-table">arrow_drop_down</mat-icon>
           </button>
@@ -130,7 +130,7 @@
 
           <button mat-button [matMenuTriggerFor]="dueDateMenu"
             class="toolbar-button tab-button animation-button filter-border fltr-btn"
-            style="height: 33px !important; outline: none !important;">
+            style="height: 30px !important;font-size: 13px; outline: none !important;">
             <div class="sort-view-controls-value">{{ getDueDateLabel(filterDueDate) }}</div>
             <mat-icon class="sort-view-table">arrow_drop_down</mat-icon>
           </button>
@@ -205,8 +205,7 @@
                     </span>
                   </div>
                   <span class="task-due" [ngClass]="'due-' + getDueStatus(task.enddate).class">
-                    <span class="cur-date flex-sc"
-                      style="font-size: 12px; padding-left: 6px; gap: 4px;">
+                    <span class="cur-date flex-sc" style="font-size: 12px; padding-left: 6px; gap: 4px;">
                       <mat-icon style="color: #e53935; height: fit-content; font-size: 13px;"
                         class="hight-width-fit-icon">radio_button_checked</mat-icon>
                       {{ getDueStatus(task.enddate).text }}
@@ -230,10 +229,8 @@
               </div>
               <mat-divider class="kanban-divider"></mat-divider>
               <div class="task-actions">
-                <button mat-button [matMenuTriggerFor]="statusMenu"
-                  class="status-menu-button"
-                  (click)="$event.stopPropagation()"
-                  [style.color]="getStatusColor(task.status)">
+                <button mat-button [matMenuTriggerFor]="statusMenu" class="status-menu-button"
+                  (click)="$event.stopPropagation()" [style.color]="getStatusColor(task.status)">
                   <span>{{ getStatusLabel(task.status) }}</span>
                   <mat-icon class="menu-icon">arrow_drop_down</mat-icon>
                 </button>
@@ -417,5 +414,3 @@
     </div>
   </div>
 </div>
-
-
