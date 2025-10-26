@@ -312,7 +312,6 @@
             </mat-header-cell>
             <mat-cell class="category-cell" *matCellDef="let task" (click)="openTaskDetail(task)">
               <span>
-                <!-- <i [class]="'fas ' + getCategoryIcon(task.category)"></i> -->
                 {{ (task.category || 'general').replace('-', ' ') | titlecase }}
               </span>
             </mat-cell>

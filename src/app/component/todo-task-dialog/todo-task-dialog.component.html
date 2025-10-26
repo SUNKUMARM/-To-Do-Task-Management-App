@@ -13,6 +13,7 @@
         </button>
     </mat-toolbar>
     <div class="dialog-body">
+        <!--===================== Task Create Section ============= -->
         <form *ngIf="!isTaskDetails" [formGroup]="taskCreateForm" (ngSubmit)="onSubmit()" class="task-form">
             <div class="form-body-wrapper">
                 <div class="subtitle">Basic Information</div>
@@ -182,5 +183,160 @@
                 </button>
             </div>
         </form>
+        <!--===================== Task view Section ============= -->
+        <div *ngIf="isTaskDetails">
+            <div class="form-body-wrapper" *ngIf="selectedTask">
+                <div class="task-detail-header">
+                    <h4 class="critical-insights-title" style="font-size: 16px;">{{ selectedTask.title }}</h4>
+                    <div class="dtStatusChip view-chip">
+                        <span [style.color]="getPriorityColor(selectedTask.priority)">
+                            {{ selectedTask.priority | titlecase }}
+                        </span>
+                        <span [style.color]="getStatusColor(selectedTask.status)">
+                            {{ selectedTask.status.replace('_', ' ') | titlecase }}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="content-wrapper">
+                    <div>
+                        <div class="subtitle" style="margin-bottom: 4px;">Description</div>
+                        <div class="critical-insights-content" style="margin: 8px 0px;">{{ selectedTask.description ||
+                            'No description provided'
+                            }}</div>
+
+                        <div class="three-fields-wrapper" style="gap: 0px !important;">
+                            <div class="key-value">
+                                <span class="critical-insights-content">Category </span>
+                                <span class="critical-insights-title">{{ (selectedTask.category || 'General') |
+                                    titlecase }}</span>
+                            </div>
+
+                            <div class="key-value">
+                                <span class="critical-insights-content">Start Date </span>
+                                <span class="critical-insights-title">{{ formatDate(selectedTask.startdate) }}</span>
+                            </div>
+
+                            <div class="key-value">
+                                <span class="critical-insights-content">Due Date </span>
+                                <span class="critical-insights-title">{{ formatDate(selectedTask.enddate) }}</span>
+                            </div>
+
+                            <div class="key-value" *ngIf="selectedTask.reminderdate">
+                                <span class="critical-insights-content">Reminder Date </span>
+                                <span class="critical-insights-title">{{ formatDate(selectedTask.reminderdate) }}</span>
+                            </div>
+
+                            <div class="key-value">
+                                <span class="critical-insights-content">Estimated Hours </span>
+                                <span class="critical-insights-title">{{ selectedTask.estimatedhours || 0 }}
+                                    hours</span>
+                            </div>
+
+                            <div class="key-value">
+                                <span class="critical-insights-content">Progress </span>
+                                <span class="critical-insights-title">{{ selectedTask.initialprogress || 0 }}%</span>
+                            </div>
+
+                            <div class="key-value">
+                                <span class="critical-insights-content">Created By </span>
+                                <span class="critical-insights-title">{{ selectedTask.createdby }}</span>
+                            </div>
+
+                            <div class="key-value">
+                                <span class="critical-insights-content">Created On </span>
+                                <span class="critical-insights-title">{{ formatDate(selectedTask.createdon) }}</span>
+                            </div>
+
+                            <div class="key-value" *ngIf="selectedTask.modifiedby">
+                                <span class="critical-insights-content">Modified By </span>
+                                <span class="critical-insights-title">{{ selectedTask.modifiedby }}</span>
+                            </div>
+
+                            <div class="key-value" *ngIf="selectedTask.modifiedon">
+                                <span class="critical-insights-content">Modified On </span>
+                                <span class="critical-insights-title">{{ formatDate(selectedTask.modifiedon) }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="assignee-section">
+                        <div class="subtitle" style="margin-bottom: 4px;">Assignee Information</div>
+                        <div class="three-fields-wrapper">
+                            <div class="key-value">
+                                <span class="critical-insights-content">Name </span>
+                                <span class="critical-insights-title">{{ selectedTask.assignedtoname }}</span>
+                            </div>
+                            <!-- <div class="key-value">
+                                <span class="critical-insights-content">Role </span>
+                                <span class="critical-insights-title">{{ selectedTask.assignedto.role }}</span>
+                            </div> -->
+                            <div class="key-value">
+                                <span class="critical-insights-content">Email </span>
+                                <span class="critical-insights-title">{{ selectedTask.assignedtoemail }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="progress-section">
+                        <div class="subtitle" style="margin-bottom: 4px;">Progress</div>
+                        <div class="progress-container large">
+                            <div class="progress-bar">
+                                <div class="progress-fill" [style.width.%]="selectedTask.initialprogress"
+                                    [style.background]="getProgressColor(selectedTask.initialprogress)"></div>
+                            </div>
+                            <span class="progress-text">{{ selectedTask.initialprogress }}%</span>
+                        </div>
+                    </div>
+
+                    <div *ngIf="selectedTask.candidatename">
+                        <div class="subtitle" style="margin-bottom: 4px;">Candidate Information</div>
+                        <div class="three-fields-wrapper">
+                            <!-- <div class="key-value">
+                                <span class="critical-insights-content">Candidate Code </span>
+                                <span class="critical-insights-title">{{ selectedTask.candidatecode }}</span>
+                            </div> -->
+                            <div class="key-value">
+                                <span class="critical-insights-content">Name </span>
+                                <span class="critical-insights-title">{{ selectedTask.candidatename }}</span>
+                            </div>
+                            <div class="key-value" *ngIf="selectedTask.candidateemail">
+                                <span class="critical-insights-content">Email </span>
+                                <span class="critical-insights-title">{{ selectedTask.candidateemail }}</span>
+                            </div>
+                            <!-- <div class="key-value" *ngIf="selectedTask.reqcode">
+                                <span class="critical-insights-content">Requisition </span>
+                                <span class="critical-insights-title">{{ selectedTask.reqcode }}</span>
+                            </div> -->
+                        </div>
+                    </div>
+
+                    <div class="critical-insights-title" *ngIf="selectedTask.tags?.length">
+                        <div class="subtitle" style="margin-bottom: 4px;">Tags</div>
+                        <div class="tags-container">
+                            <span *ngFor="let tag of selectedTask.tags" class="tag">
+                                <mat-chip class="insights-chip int-feedback-chipcolor int-feedback-chips">{{ tag
+                                    }}</mat-chip>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div *ngIf="selectedTask.additionalnotes">
+                        <div class="subtitle" style="margin-bottom: 4px;">Additional Notes</div>
+                        <div class="critical-insights-content">{{ selectedTask.additionalnotes }}</div>
+                    </div>
+
+                    <div class="critical-insights-title" *ngIf="selectedTask.externallinks?.length">
+                        <div class="subtitle" style="margin-bottom: 4px;">External Links</div>
+                        <div *ngFor="let link of selectedTask.externallinks">
+                            <a [href]="link" target="_blank" class="external-link">
+                                {{ link }}
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

@@ -17,6 +17,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatChipsModule } from '@angular/material/chips';
 
 const materialModules = [
   MatButtonModule,
@@ -36,7 +37,8 @@ const materialModules = [
   MatPaginatorModule,
   MatMenuModule,
   MatDividerModule,
-  DragDropModule
+  DragDropModule,
+  MatChipsModule
 ];
 
 @NgModule({

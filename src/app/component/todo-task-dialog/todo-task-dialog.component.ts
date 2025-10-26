@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { Task } from "src/app/service/todo.service";
+import { Task, TodoService } from "src/app/service/todo.service";
 
 @Component({
     selector: 'create-task-dialog',
@@ -12,7 +12,7 @@ import { Task } from "src/app/service/todo.service";
 export class TodoTaskCreateDialog implements OnInit {
     isTaskDetails: Boolean = false;
     taskCreateForm!: FormGroup;
-
+    selectedTask: any;
     // Status options
     statusOptions = [
         { viewValue: "Not Started", value: "not_started" },
@@ -50,9 +50,12 @@ export class TodoTaskCreateDialog implements OnInit {
         { viewValue: "Finance Approver", value: "finance" }
     ];
 
-    constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<TodoTaskCreateDialog>, @Inject(MAT_DIALOG_DATA) public data: any) {
-        console.log("data", data);
-
+    constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<TodoTaskCreateDialog>, private flagColorService: TodoService, @Inject(MAT_DIALOG_DATA) public data: any) {
+        console.log("dta sun", data);
+        if (data.viewTaskDeatils) {
+            this.selectedTask = data.selectedTask;
+            this.isTaskDetails = data.viewTaskDeatils;
+        }
     }
     ngOnInit(): void {
         this.createForm();
@@ -137,7 +140,6 @@ export class TodoTaskCreateDialog implements OnInit {
     }
 
     onSubmit() {
-        console.log("this.taskCreateForm", this.taskCreateForm);
 
         if (this.taskCreateForm.invalid) {
             this.showNotification('Please fill all required fields', 'error');
@@ -199,6 +201,19 @@ export class TodoTaskCreateDialog implements OnInit {
     private showNotification(message: string, type: 'success' | 'error' | 'info' = 'info'): void {
         // Since MatSnackBar is not injected here, we'll just log
         // The parent component will show the notification
-        console.log(`${type}: ${message}`);
+    }
+    formatDate(dateString: string): string {
+        if (!dateString) return 'Not set';
+        return new Date(dateString).toLocaleDateString();
+    }
+
+    getPriorityColor(priority: string) {
+        return this.flagColorService.getPriorityColor(priority);
+    }
+    getStatusColor(status: string) {
+        return this.flagColorService.getStatusColor(status);
+    }
+    getProgressColor(progress: number): string {
+        return this.flagColorService.getProgressColor(progress);
     }
 }

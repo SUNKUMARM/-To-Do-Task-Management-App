@@ -84,7 +84,6 @@ kanbanColumns: { id: ColumnId; title: string; icon: string; color: string }[] = 
                 }
             });
             dialog.afterClosed().subscribe(result => {
-                console.log("result", result);
             })
         })
     }
@@ -171,7 +170,6 @@ kanbanColumns: { id: ColumnId; title: string; icon: string; color: string }[] = 
         })
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                console.log('New task data:', result);
                 // Handle the new task creation
                 // For example: this.taskService.createTask(result);
                 // Or: this.tasks.push(result);
@@ -401,12 +399,11 @@ kanbanColumns: { id: ColumnId; title: string; icon: string; color: string }[] = 
 
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                console.log('Updated task data:', result);
                 this.todoService.updateTaskById(result.id, result).subscribe({
                     next: (updatedTask) => {
                         this.showNotification('Task updated successfully', 'success');
                         // Tasks will reload automatically via the service subscription
-                        
+
                     },
                     error: (error) => {
                         console.error('Error updating task:', error);
@@ -431,7 +428,6 @@ kanbanColumns: { id: ColumnId; title: string; icon: string; color: string }[] = 
 
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                console.log('New task data:', result);
                 this.todoService.createTask(result).subscribe({
                     next: (newTask) => {
                         this.showNotification('Task created successfully', 'success');
