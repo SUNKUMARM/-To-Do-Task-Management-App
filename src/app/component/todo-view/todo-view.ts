@@ -406,6 +406,7 @@ kanbanColumns: { id: ColumnId; title: string; icon: string; color: string }[] = 
                     next: (updatedTask) => {
                         this.showNotification('Task updated successfully', 'success');
                         // Tasks will reload automatically via the service subscription
+                        
                     },
                     error: (error) => {
                         console.error('Error updating task:', error);

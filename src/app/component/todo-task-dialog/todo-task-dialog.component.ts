@@ -52,12 +52,13 @@ export class TodoTaskCreateDialog implements OnInit {
 
     constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<TodoTaskCreateDialog>, @Inject(MAT_DIALOG_DATA) public data: any) {
         console.log("data", data);
-        if (this.data) {
-            this.patchTaskForm(this.data);
-        }
+
     }
     ngOnInit(): void {
         this.createForm();
+        if (this.data) {
+            this.patchTaskForm(this.data.taskData);
+        }
     }
     createForm() {
         this.taskCreateForm = this.fb.group({
@@ -68,8 +69,8 @@ export class TodoTaskCreateDialog implements OnInit {
             status: ['not_started', Validators.required],
             category: [''],
             assignedto: ['', Validators.required],
-            assignedtoid: ['', Validators.required],
-            assignedtoname: ['', Validators.required],
+            assignedtoid: [''],
+            assignedtoname: [''],
             startdate: [''],
             enddate: [''],
             reminderdate: [''],
@@ -97,11 +98,7 @@ export class TodoTaskCreateDialog implements OnInit {
         this.dialogRef.close(null);
     }
 
-    patchTaskForm(taskData: any) {
-        if (!taskData || !taskData.taskData) return;
-
-        const task = taskData.taskData;
-
+    patchTaskForm(task: any) {
         // Format dates for input fields (from ISO to YYYY-MM-DD)
         const formatDateForInput = (isoDate: string) => {
             if (!isoDate) return '';
@@ -115,7 +112,7 @@ export class TodoTaskCreateDialog implements OnInit {
             priority: task.priority || 'medium',
             status: task.status || 'not_started',
             category: task.category || '',
-            assignedto: task.assignedto || '',
+            assignedto: task.assignedto || '1',
             startdate: formatDateForInput(task.startdate),
             enddate: formatDateForInput(task.enddate),
             reminderdate: formatDateForInput(task.reminderdate || ''),
@@ -140,6 +137,8 @@ export class TodoTaskCreateDialog implements OnInit {
     }
 
     onSubmit() {
+        console.log("this.taskCreateForm", this.taskCreateForm);
+
         if (this.taskCreateForm.invalid) {
             this.showNotification('Please fill all required fields', 'error');
             return;
@@ -165,7 +164,7 @@ export class TodoTaskCreateDialog implements OnInit {
             priority: formValue.priority || 'medium',
             status: formValue.status || 'not_started',
             category: formValue.category?.trim() || '',
-            assignedto: formValue.assignedto?.trim() || '',
+            assignedto: formValue.assignedto?.trim() || '1',
             startdate: formatDateToISO(formValue.startdate),
             enddate: formatDateToISO(formValue.enddate),
             reminderdate: formatDateToISO(formValue.reminderdate),
@@ -194,7 +193,6 @@ export class TodoTaskCreateDialog implements OnInit {
             (taskData as any).createdbyid = this.data.taskData.createdbyid;
             (taskData as any).createdon = this.data.taskData.createdon;
         }
-
         // Close dialog and return the task data
         this.dialogRef.close(taskData);
     }
