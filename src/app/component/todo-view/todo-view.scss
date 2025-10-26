@@ -1076,15 +1076,15 @@ app-todo .modal-overlay {
 }
 
 .critical-insights-title {
-  font-size: var(--subtitle-font-size);
-  font-weight: var(--title-font-weight);
+  font-size: 13px;
+  font-weight: 500;
   color: var(--font-color) !important;
   margin-bottom: 6px;
 }
 
 .subtitle {
-  font-size: var(--subtitle-font-size);
-  font-weight: var(--title-font-weight);
+  font-size: 14px;
+  font-weight: 500;
   color: #279388;
   position: relative;
   margin-top: 8px;
@@ -1106,6 +1106,7 @@ app-todo .modal-overlay {
 .toolbar-button {
   margin-right: 0px !important;
   background-color: var(--tabactive-color);
+  letter-spacing: 0px;
 }
 
 .task-table .mat-column-task,
@@ -1122,6 +1123,7 @@ app-todo .modal-overlay {
   overflow: hidden;
   text-overflow: ellipsis;
   justify-content: left;
+  font-size: 13px;
 }
 
 .task-table .mat-column-task {
@@ -1379,6 +1381,7 @@ app-todo .modal-overlay {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 16px;
 }
 
 .report-card {
@@ -1392,6 +1395,8 @@ app-todo .modal-overlay {
   background-image: linear-gradient(to left top, #aed5ee, #ffffff);
   border: 1px solid #aed5ee;
   font-size: 13px;
+  white-space: nowrap;
+  letter-spacing: 0px;
 }
 
 .report-card .card-div {
@@ -1450,4 +1455,41 @@ app-todo .modal-overlay {
   ::ng-deep.mat-mdc-menu-item .mat-mdc-menu-item-text {
     font-size: 13px !important;
   }
+}
+
+.report-card {
+  .critical-insights-title {
+    white-space: nowrap;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .segment-control {
+    width: 97% !important;
+
+    button {
+      width: 50% !important;
+    }
+  }
+
+  .todo-filter-wrapper {
+    .toolbar-button {
+      width: 100% !important;
+    }
+  }
+
+  .task-table .mat-column-actions {
+    position: static !important;
+  }
+  .search-input {
+    width: fit-content !important;
+  }
+}
+
+.serach-icon {
+  position: absolute;
+  top: 6px;
+  left: 10px;
+  font-size: 17px !important;
+  color: var(--icon-color);
 }

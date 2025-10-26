@@ -95,8 +95,24 @@ textarea {
 }
 
 mat-icon {
-    font-size: 18px;
-    height: fit-content;
-    width: fit-content;
+    font-size: 18px !important;
+    height: fit-content !important;
+    width: fit-content !important;
 }
 
+.critical-insights-content {
+    color: var(--font-color);
+    opacity: 0.7;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+.mat-mdc-paginator {
+    background: rgba(0, 0, 0, 0.04) !important;
+    border-radius: 0px 0px 6px 6px;
+    border: 1px solid #d3d3d3;
+}
+.mat-mdc-select-value,
+.mat-mdc-form-field-input-control.mat-mdc-form-field-input-control{
+    font-size: 13px !important;
+}

@@ -60,10 +60,13 @@
     background-image: linear-gradient(to left top, #aed5ee, #ffffff);
     border: 1px solid #aed5ee;
     font-size: 13px;
+    white-space: nowrap;
+    letter-spacing: 0px;
 }
 
 .submit-button {
     background-image: linear-gradient(to left top, #002817, #1eb879);
     color: #fff;
     font-size: 13px;
+    letter-spacing: 0px;
 }
